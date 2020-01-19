@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="src/datepicker.css" />
+  </head>
+  <body>
+    <div class="date-picker-sub-div-Big">
+      <div class="date-picker-sub-div">
+        <div class="select_month" id="select_month"></div>
+        <div id="date_">
+          <div id="date_picker"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="show_pickerI"></h3>
+
+    <div class="date-picker-div">
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="date_picker_input" id="date_picker_input"></div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="date_picker_input" id="date_picker_input2"></div>
+        </div>
+      </div>
+
+      <!-- <input type="text" id="date_picker_input" />
+      
+      <input type="text" id="date_picker_input2" /> -->
+    </div>
+  </body>
+  <script src="src/DatePickerClass.js"></script>
+  <script src="src/HandleInputDatePicker.js"></script>
+
+  <script>
+    function calDateBooking() {
+      console.log("some calulator equiption");
+    }
+    let datePicker = new DatePickerClass();
+    new HandleInputDatePicker(
+      "#date_picker_input",
+      datePicker,
+      "#show_pickerI",
+      calDateBooking
+    );
+  </script>
+</html>
