@@ -178,58 +178,55 @@ class DatePickerClass {
     createH5.appendChild(textNode);
     createMD.appendChild(createH5);
 
-    const createButton = document.createElement("button");
+    //
+    const prevButton = document.createElement("button");
     const text1 = document.createTextNode("<");
-    createButton.className = "btnNextPrev pointer";
-    const createButton2 = document.createElement("button");
+    prevButton.className = "btnNextPrev pointer";
+    //
+    const nextButton = document.createElement("button");
     const text2 = document.createTextNode(">");
-    createButton2.className = "btnNextPrev pointer";
+    nextButton.className = "btnNextPrev pointer";
 
-    createButton.appendChild(text1);
-    createButton2.appendChild(text2);
-    createButton2.onclick = () => {
-      const {
-        monthNow,
-        showMonthAndYear
-      } = this.whenUserClickNextOrPrevYearOrMonth(
-        mNow < 11,
-        mNow + 1,
-        0,
-        parseInt(this.chooseYear) + 1
+    prevButton.appendChild(text1);
+    nextButton.appendChild(text2);
+    nextButton.onclick = () => {
+      const { monthNow, showMonthAndYear } = this.whenUserClickNextMonthOrYear(
+        mNow
       );
       mNow = monthNow;
       this.chooseMonth = mNow;
       createH5.innerHTML = showMonthAndYear;
       this.initDate(new Date(`${mNow + 1}/1/${this.chooseYear}`));
     };
-    createButton.onclick = () => {
+    prevButton.onclick = () => {
       const {
         monthNow,
         showMonthAndYear
-      } = this.whenUserClickNextOrPrevYearOrMonth(
-        mNow > 0,
-        mNow - 1,
-        months.length - 1,
-        parseInt(this.chooseYear) - 1
-      );
+      } = this.whenUserClickPreviousMonthOrYear(mNow);
       mNow = monthNow;
       this.chooseMonth = mNow;
       createH5.innerHTML = showMonthAndYear;
       this.initDate(new Date(`${mNow + 1}/1/${this.chooseYear}`));
     };
-    document.getElementById("select_month").appendChild(createButton);
+    //  set button and header
+    document.getElementById("select_month").appendChild(prevButton);
     document.getElementById("select_month").appendChild(createMD);
-    document.getElementById("select_month").appendChild(createButton2);
+    document.getElementById("select_month").appendChild(nextButton);
   }
-
-  whenUserClickNextOrPrevYearOrMonth(
-    _if_,
-    v_if_is_true,
-    v_if_is_false,
-    year_plus_or_neg
-  ) {
-    this.chooseYear = _if_ ? this.chooseYear : year_plus_or_neg;
-    const monthNow = _if_ ? v_if_is_true : v_if_is_false;
+  _whenUserClickNextMonthOrYear(mNow) {
+    const _if_ = mNow < 11;
+    console.log({ mNow });
+    this.chooseYear = _if_ ? this.chooseYear : parseInt(this.chooseYear) + 1;
+    const monthNow = _if_ ? mNow + 1 : 0;
+    return {
+      monthNow: monthNow,
+      showMonthAndYear: this.format_header_show_month(monthNow)
+    };
+  }
+  _whenUserClickPreviousMonthOrYear(mNow) {
+    const _if_ = mNow > 0;
+    this.chooseYear = _if_ ? this.chooseYear : parseInt(this.chooseYear) - 1;
+    const monthNow = _if_ ? mNow - 1 : months.length - 1;
     return {
       monthNow: monthNow,
       showMonthAndYear: this.format_header_show_month(monthNow)
