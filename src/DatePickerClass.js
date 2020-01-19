@@ -90,6 +90,21 @@ class DatePickerClass {
     return datePicker;
   }
 
+  initHeaderOfDate(datePicker, createDiv) {
+    if (datePicker.children.length === 0) {
+      // add day header Sunday , Monday , Tuesday
+      days.forEach(d => {
+        const createDiv2 = document.createElement("div");
+        createDiv2.className = "sub-date-p";
+        const createText = document.createTextNode(d);
+        createDiv2.appendChild(createText);
+        createDiv.appendChild(createDiv2);
+      });
+      datePicker.appendChild(createDiv);
+    } else {
+      datePicker.children[1].remove();
+    }
+  }
   /**
    *
    * @param {Date} date
@@ -100,20 +115,7 @@ class DatePickerClass {
       const datePicker = document.getElementById("date_picker");
       const createDiv = document.createElement("div");
       createDiv.className = "datePicker";
-
-      if (datePicker.children.length === 0) {
-        // add day header Sunday , Monday , Tuesday
-        days.forEach(d => {
-          const createDiv2 = document.createElement("div");
-          createDiv2.className = "sub-date-p";
-          const createText = document.createTextNode(d);
-          createDiv2.appendChild(createText);
-          createDiv.appendChild(createDiv2);
-        });
-        datePicker.appendChild(createDiv);
-      } else {
-        datePicker.children[1].remove();
-      }
+      this.initHeaderOfDate(datePicker, createDiv);
 
       const createTr2 = document.createElement("div");
       createTr2.className = "datePicker";
@@ -122,27 +124,30 @@ class DatePickerClass {
       for (let i = 0; i <= 35; i++) {
         try {
           const createTd = document.createElement("div");
-          createTd.className = "createTd";
-          const ind = days.indexOf(dateP[index][1]);
-          createTd.className = "date_";
+          const ind = days.indexOf(dateP[index][1]); // check index of day
+
+          // if this index === first date index of day set indexGo = true
+          // ex. if date 1 == monday, sunday value is null.
           if (i == ind) {
             indexGo = true;
           }
+          //
           if (indexGo) {
             const text = document.createTextNode(dateP[index][0]);
+            createTd.appendChild(text);
+            index++;
             if (
               dateP[index][0] == new Date().getDate() &&
               this.chooseMonth == new Date().getMonth() &&
               this.chooseYear == new Date().getFullYear()
             ) {
-              createTd.className = "createTdNow";
+              createTd.className = "createTdNow"; // set color for today
             }
-            createTd.appendChild(text);
-            index++;
           } else {
             const text = document.createTextNode("");
             createTd.appendChild(text);
           }
+          //
           createTd.onclick = () => {
             Array.from(createTr2.children).forEach(d => {
               if (d.className !== "createTdNow") d.className = "";
@@ -190,7 +195,7 @@ class DatePickerClass {
     prevButton.appendChild(text1);
     nextButton.appendChild(text2);
     nextButton.onclick = () => {
-      const { monthNow, showMonthAndYear } = this.whenUserClickNextMonthOrYear(
+      const { monthNow, showMonthAndYear } = this._whenUserClickNextMonthOrYear(
         mNow
       );
       mNow = monthNow;
@@ -202,7 +207,7 @@ class DatePickerClass {
       const {
         monthNow,
         showMonthAndYear
-      } = this.whenUserClickPreviousMonthOrYear(mNow);
+      } = this._whenUserClickPreviousMonthOrYear(mNow);
       mNow = monthNow;
       this.chooseMonth = mNow;
       createH5.innerHTML = showMonthAndYear;
@@ -215,7 +220,6 @@ class DatePickerClass {
   }
   _whenUserClickNextMonthOrYear(mNow) {
     const _if_ = mNow < 11;
-    console.log({ mNow });
     this.chooseYear = _if_ ? this.chooseYear : parseInt(this.chooseYear) + 1;
     const monthNow = _if_ ? mNow + 1 : 0;
     return {
