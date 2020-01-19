@@ -1,0 +1,121 @@
+.datePicker {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.datePicker > div {
+  padding: 20px;
+  transition: all 0.3s linear;
+  text-align: center;
+}
+
+.select_month {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  text-align: center;
+  align-items: center;
+  background: #769b17;
+}
+.createTdActive {
+  background: #c3e572;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 1px 3px 5px 1px rgba(0, 0, 0, 0.3);
+}
+.createTdNow {
+  background: #5c751d;
+  color: white;
+  box-shadow: 1px 3px 5px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+.datePicker > div:hover {
+  background: #c3e572;
+}
+.sub-date-p {
+  padding: 10px;
+}
+
+.select_month > button {
+  text-align: center;
+}
+.btnNextPrev {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0);
+  border: 0px;
+}
+.date_picker_input {
+  /* padding-left: 20px; */
+
+  width: 100%;
+  border-radius: 3px;
+  box-sizing: border-box;
+  border: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s linear;
+
+  padding: 0px;
+  margin: 0px;
+}
+
+.activeClass {
+  background: #5c751d;
+  color: white;
+}
+.date_picker_input > div {
+  margin: 0px;
+}
+
+.date_picker_input > div > div {
+  padding: 10px;
+  /* background: red; */
+  align-self: center;
+  /* align-items: center; */
+  color: rgba(0, 0, 0, 1);
+}
+.date_picker_input > div > div:first-child {
+  /* background: red; */
+  border-right: 2px solid;
+  margin: 0px;
+  padding: 0;
+}
+.date_picker_input > div > div:last-child {
+  transition: all 0.3s linear;
+}
+
+.date_picker_input > div > div > h5 {
+  margin: 0px;
+  padding: 0;
+  text-align: left;
+  padding: 10px;
+}
+.date-picker-div {
+  width: 80%;
+  margin: auto;
+}
+.pointer {
+  cursor: pointer;
+}
+.date-picker-sub-div-Big {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  z-index: 100;
+}
+.date-picker-sub-div {
+  position: absolute;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 1px 3px 5px 1px rgba(0, 0, 0, 0.3);
+}
+
+.select_month {
+  color: white;
+}
