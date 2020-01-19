@@ -44,10 +44,10 @@ class DatePickerClass {
       November: 30,
       December: 31
     };
-    this.chooseDay = "";
-
-    this.chooseMonth = "";
-    this.chooseYear = "";
+    const dateNow = new Date();
+    this.chooseMonth = dateNow.getMonth();
+    this.chooseYear = dateNow.getFullYear();
+    this.chooseDay = dateNow.getDate();
     this.functions = [];
     this.initMonths();
     this.initDate(new Date());
@@ -75,9 +75,7 @@ class DatePickerClass {
   _createDatePicker(dateNow) {
     let datePicker = [];
     const findDateLimitEachMonth = this.mS[months[dateNow.getMonth()]];
-    this.chooseMonth = dateNow.getMonth();
-    this.chooseYear = dateNow.getFullYear();
-    this.chooseDay = dateNow.getDate();
+
     for (let i = 1; i <= findDateLimitEachMonth; i++) {
       const date = i;
       const month = dateNow.getMonth();
@@ -102,19 +100,21 @@ class DatePickerClass {
       const datePicker = document.getElementById("date_picker");
       const createDiv = document.createElement("div");
       createDiv.className = "datePicker";
-      while (datePicker.firstChild) {
-        datePicker.firstChild.remove();
+
+      if (datePicker.children.length === 0) {
+        // add day header Sunday , Monday , Tuesday
+        days.forEach(d => {
+          const createDiv2 = document.createElement("div");
+          createDiv2.className = "sub-date-p";
+          const createText = document.createTextNode(d);
+          createDiv2.appendChild(createText);
+          createDiv.appendChild(createDiv2);
+        });
+        datePicker.appendChild(createDiv);
+      } else {
+        datePicker.children[1].remove();
       }
 
-      // add day header Sunday , Monday , Tuesday
-      days.forEach(d => {
-        const createDiv2 = document.createElement("div");
-        createDiv2.className = "sub-date-p";
-        const createText = document.createTextNode(d);
-        createDiv2.appendChild(createText);
-        createDiv.appendChild(createDiv2);
-      });
-      datePicker.appendChild(createDiv);
       const createTr2 = document.createElement("div");
       createTr2.className = "datePicker";
       let indexGo = false;
@@ -132,7 +132,8 @@ class DatePickerClass {
             const text = document.createTextNode(dateP[index][0]);
             if (
               dateP[index][0] == new Date().getDate() &&
-              this.chooseMonth == new Date().getMonth()
+              this.chooseMonth == new Date().getMonth() &&
+              this.chooseYear == new Date().getFullYear()
             ) {
               createTd.className = "createTdNow";
             }
@@ -162,10 +163,14 @@ class DatePickerClass {
     }
   }
 
-  initMonths() {
-    let mNow = new Date().getMonth();
+  format_header_show_month(mNow) {
+    return `${months[mNow]} ${this.chooseYear}`;
+  }
 
-    const mSelete = months[mNow];
+  initMonths() {
+    let mNow = this.chooseMonth;
+
+    const mSelete = `${months[mNow]}  ${this.chooseYear}`;
     const createMD = document.createElement("div");
     const createH5 = document.createElement("h5");
     createH5.style.color = "white";
@@ -183,18 +188,35 @@ class DatePickerClass {
     createButton.appendChild(text1);
     createButton2.appendChild(text2);
     createButton2.onclick = () => {
+      let showMonthAndYear = "";
       if (mNow < 11) {
         mNow = mNow + 1;
-        createMD.innerHTML = months[mNow];
-        this.initDate(new Date(`${mNow + 1}/1/2020`));
+        showMonthAndYear = this.format_header_show_month(mNow);
+      } else {
+        mNow = 0;
+        this.chooseYear = parseInt(this.chooseYear) + 1;
+        showMonthAndYear = this.format_header_show_month(mNow);
       }
+
+      this.chooseMonth = mNow;
+
+      createH5.innerHTML = showMonthAndYear;
+      this.initDate(new Date(`${mNow + 1}/1/${this.chooseYear}`));
     };
     createButton.onclick = () => {
+      let showMonthAndYear = "";
       if (mNow > 0) {
         mNow = mNow - 1;
-        createMD.innerHTML = months[mNow];
-        this.initDate(new Date(`${mNow + 1}/1/2020`));
+        showMonthAndYear = this.format_header_show_month(mNow);
+      } else {
+        mNow = months.length - 1;
+        this.chooseYear = parseInt(this.chooseYear) - 1;
+        showMonthAndYear = this.format_header_show_month(mNow);
       }
+      console.log({ months: months[mNow], mNow });
+      this.chooseMonth = mNow;
+      createH5.innerHTML = showMonthAndYear;
+      this.initDate(new Date(`${mNow + 1}/1/${this.chooseYear}`));
     };
     document.getElementById("select_month").appendChild(createButton);
     document.getElementById("select_month").appendChild(createMD);
