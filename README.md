@@ -1,5 +1,7 @@
 # Show Date picker
 
+- you need to convert es6 --> es5
+
 I would create some libery for date picker
 
 #### in html tag like index.html
