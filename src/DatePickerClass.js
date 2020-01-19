@@ -188,32 +188,31 @@ class DatePickerClass {
     createButton.appendChild(text1);
     createButton2.appendChild(text2);
     createButton2.onclick = () => {
-      let showMonthAndYear = "";
-      if (mNow < 11) {
-        mNow = mNow + 1;
-        showMonthAndYear = this.format_header_show_month(mNow);
-      } else {
-        mNow = 0;
-        this.chooseYear = parseInt(this.chooseYear) + 1;
-        showMonthAndYear = this.format_header_show_month(mNow);
-      }
-
+      const {
+        monthNow,
+        showMonthAndYear
+      } = this.whenUserClickNextOrPrevYearOrMonth(
+        mNow < 11,
+        mNow + 1,
+        0,
+        parseInt(this.chooseYear) + 1
+      );
+      mNow = monthNow;
       this.chooseMonth = mNow;
-
       createH5.innerHTML = showMonthAndYear;
       this.initDate(new Date(`${mNow + 1}/1/${this.chooseYear}`));
     };
     createButton.onclick = () => {
-      let showMonthAndYear = "";
-      if (mNow > 0) {
-        mNow = mNow - 1;
-        showMonthAndYear = this.format_header_show_month(mNow);
-      } else {
-        mNow = months.length - 1;
-        this.chooseYear = parseInt(this.chooseYear) - 1;
-        showMonthAndYear = this.format_header_show_month(mNow);
-      }
-      console.log({ months: months[mNow], mNow });
+      const {
+        monthNow,
+        showMonthAndYear
+      } = this.whenUserClickNextOrPrevYearOrMonth(
+        mNow > 0,
+        mNow - 1,
+        months.length - 1,
+        parseInt(this.chooseYear) - 1
+      );
+      mNow = monthNow;
       this.chooseMonth = mNow;
       createH5.innerHTML = showMonthAndYear;
       this.initDate(new Date(`${mNow + 1}/1/${this.chooseYear}`));
@@ -221,5 +220,19 @@ class DatePickerClass {
     document.getElementById("select_month").appendChild(createButton);
     document.getElementById("select_month").appendChild(createMD);
     document.getElementById("select_month").appendChild(createButton2);
+  }
+
+  whenUserClickNextOrPrevYearOrMonth(
+    _if_,
+    v_if_is_true,
+    v_if_is_false,
+    year_plus_or_neg
+  ) {
+    this.chooseYear = _if_ ? this.chooseYear : year_plus_or_neg;
+    const monthNow = _if_ ? v_if_is_true : v_if_is_false;
+    return {
+      monthNow: monthNow,
+      showMonthAndYear: this.format_header_show_month(monthNow)
+    };
   }
 }
