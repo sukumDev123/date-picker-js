@@ -135,7 +135,6 @@ class DatePickerClass {
           if (indexGo) {
             const text = document.createTextNode(dateP[index][0]);
             createTd.appendChild(text);
-            index++;
             if (
               dateP[index][0] == new Date().getDate() &&
               this.chooseMonth == new Date().getMonth() &&
@@ -143,6 +142,7 @@ class DatePickerClass {
             ) {
               createTd.className = "createTdNow"; // set color for today
             }
+            index++;
           } else {
             const text = document.createTextNode("");
             createTd.appendChild(text);
